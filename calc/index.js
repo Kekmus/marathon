@@ -20,11 +20,130 @@ function isNumber(value) {
     return typeof value === 'number' && isFinite(value);
 }
 
-console.log(calc('sum', 1, 3))
-console.log(calc('sub', 5, 6))
-console.log(calc('multi', 3, 6))
-console.log(calc('div', 8, 2))
-console.log(calc('div', 8, 0))
-console.log(calc('kel', 5, 6))
-console.log(calc('sum', 'ff', 6))
-console.log(calc('sum', 5, '5555'))
+let a = '0';
+let b = '';
+let operator = null;
+let hasOperator = false;
+
+function setA(value) {
+    if(a === '0') a = '';
+    a += value
+} 
+
+function setB(value) {
+    if(b === '0') b = '';
+    b += value
+}
+
+function setArgument(value) {
+    hasOperator ? setB(value) : setA(value);
+}
+
+function setOperator(value) {
+    if(!b) {
+        operator = value
+        hasOperator = true
+        show()
+        console.log(1)
+    } else {
+        showCalc()
+        operator = value
+        hasOperator = true
+    }
+    
+}
+
+function show() {
+    if(a && operator && b) {
+        value.innerHTML = a + operator + b
+        return
+    }
+    if(a && operator) {
+        value.innerHTML = a + operator
+        return
+    }
+    value.innerHTML = a
+
+}
+
+function showCalc() {
+    let operation;
+    switch(operator) {
+        case '/':
+            operation = 'div'
+            break
+        case '*':
+            operation = 'multi'
+            break
+        case '-':
+            operation = 'sub'
+            break
+        case '+':
+            operation = 'sum'
+            break
+    }
+    let temp = calc(operation, +a, +b)
+    parametrsReset()
+    a = ''+ temp
+}
+
+function parametrsReset() {
+    a = '0';
+    b = '';
+    operator = null;
+    hasOperator = false;
+}
+
+function delLastSymbol() {
+    if(b){
+        b = b.slice(0, b.length-1)
+        return
+    }
+    if(hasOperator) {
+        operator = null
+        hasOperator = false
+        return
+    }
+    a = a.slice(0, b.length-1)
+    if(a.length === 0) a = '0';
+}
+
+function kek (event) {
+    if(event.target.className === 'btn-value') {
+        btnType = event.target.innerHTML
+        switch (btnType) {
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '0':
+                setArgument(btnType)
+                break
+            case '/':
+            case '*':
+            case '-':
+            case '+':
+                setOperator(btnType)
+                break
+            case '=':
+                showCalc()
+                break
+            case 'C':
+                parametrsReset()
+                break
+            case '&lt;=':
+                delLastSymbol()
+        }
+    }
+    show()
+}
+
+const value = document.querySelector('.value-item')
+const btns = document.querySelector('.buttons-container')
+
+btns.addEventListener('click', kek)

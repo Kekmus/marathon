@@ -23,8 +23,8 @@
 
 .value-item {
     padding: auto;
-    line-height: 96px;
-    font-size: 96px;
+    line-height: 64px;
+    font-size: 64px;
     font-weight: 300;
     text-align: right;
 }
@@ -42,7 +42,6 @@
 }
 
 .grid-item {
-    display: flex;
     min-width: 69px;
     height: 72px;
     background-color: #2e2f38;
@@ -51,7 +50,8 @@
 }
 
 .btn-value {
-    margin: auto;
+    padding: 16px 0 ;
+    cursor: pointer;
 }
 
 .grid-c {
