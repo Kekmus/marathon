@@ -1,37 +1,58 @@
-statuses = new Set()
-
-const list = {
-    "create a task": "In Progress",
-    "make a bed": "Done",
-    "write a post": "To Do",
+class Task {
+    constructor(name, status, priority) {
+        this.id = currentId
+        currentId++;
+        this.name = name
+        this.status = status
+        this.priority = priority
+    }
 }
 
-function addNewStatus(status) {
-    if (!statuses.has(status)) statuses.set(status)
+
+let currentId = 0;
+const list = new Set()
+list.add(new Task('create post', 'TODO', 'low'))
+list.add(new Task('test', 'done', 'high'))
+
+function changeStatus(taskName, newStatus) {
+    for(let task of list) {
+        if(task.name === taskName) {
+            task.status = newStatus
+            return
+        }
+    }
+    return new Error('Uncknown task');
 }
 
-function deleteStatus(status) {
-    if (statuses.has(status)) statuses.delete(status);
+function addTask(name, status, priority) {
+    for(let task of list) {
+        if(task.name === name)
+            return new Error('Task already exist');
+    }
+    list.add(new Task(name, status, priority))
 }
 
-function changeStatus(task, newStatus) {
-    if(!(task in list)) return new Error('Uncknown task');
-    list[task] = newStatus
-    addNewStatus(newStatus)
-}
-
-function addTask(task, status) {
-    if(task in list) return new Error('Task already exist');
-    list[task] = status 
-    addNewStatus(status)
-}
-
-function deleteTask(task) {
-    if(!(task in list)) return new Error('Uncknown task');
-    delete list[task] 
+function deleteTask(name) {
+    for(let task of list) {
+        if(task.name === name) {
+            list.delete(task)
+            return
+        }
+    }
+    return new Error('Uncknown task');
 }
 
 function showList() {
-
+    console.log(list)
 }
 
+showList()
+changeStatus('test', 'newStatus')
+changeStatus('test111', 'newStatus')
+showList()
+addTask('work', 'TODO', 'medium')
+addTask('kek1', 'kek2', 'kek3')
+showList()
+deleteTask('kek1')
+deleteTask('kek2')
+showList()
