@@ -108,7 +108,7 @@ function delLastSymbol() {
     if(a.length === 0) a = '0';
 }
 
-function kek (event) {
+function clickBtn (event) {
     if(event.target.className === 'btn-value') {
         btnType = event.target.innerHTML
         switch (btnType) {
@@ -146,4 +146,7 @@ function kek (event) {
 const value = document.querySelector('.value-item')
 const btns = document.querySelector('.buttons-container')
 
-btns.addEventListener('click', kek)
+btns.addEventListener('click', clickBtn)
+
+// добавить масштабирование элементов при длинных числах
+// переписать говнокод в некоторых методах при приобработке 
