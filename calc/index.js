@@ -1,3 +1,5 @@
+import {isCorrectType} from './module.js'
+
 function calc(operation, a, b) {
     let operations  = {
         sum: a + b,
@@ -10,14 +12,6 @@ function calc(operation, a, b) {
     if(!(operation in operations))
         return new Error('Unknown operation')
     return operations[operation]
-}
-
-function isCorrectType(value, type) {
-    if (type === 'number') return isNumber(value);
-}
-
-function isNumber(value) {
-    return typeof value === 'number' && isFinite(value);
 }
 
 let a = '0';
@@ -108,9 +102,10 @@ function delLastSymbol() {
     if(a.length === 0) a = '0';
 }
 
+
 function clickBtn (event) {
     if(event.target.className === 'btn-value') {
-        btnType = event.target.innerHTML
+        let btnType = event.target.innerHTML
         switch (btnType) {
             case '1':
             case '2':
