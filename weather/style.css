@@ -17,8 +17,8 @@
 
 .search-container {
     width: 100%;
-    height: 10%;
-    padding: 11px 16px;
+    height: 45px;
+    padding: 0 5%;
 }
 
 .content-container {
@@ -73,7 +73,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    padding: 10px 20px;
+    padding: 5% 10%;
 }
 
 .locations-container{
@@ -92,17 +92,54 @@
 
 .location-item {
     height: 90%;
+    width: 70%;
     padding: 0 5%;
-    margin: 0 10%;
+    margin: 0 15% 0 5%;
     text-decoration: none;
     list-style-type: none;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .active-location {
     color: white;
     background-color: black;
     border-radius: 10px;
+}
+
+.weather-block {
+    display: none;
+    height: 100%;
+}
+
+.weather-block:nth-child(1) {
+    background-color: aqua;
+}
+.weather-block:nth-child(2) {
+}
+.weather-block:nth-child(3) {
+    background-color: rebeccapurple;
+}
+
+.weather-block:target {
+    display: block;
+}
+
+.weather-container .container {
+    padding: 10% 10%;
+    height: 100%;
+}
+
+.city-items {
+    padding: 0;
+}
+
+.details-container .city-name {
+    margin-bottom: 15%;;
+}
+
+.city-item {
+    text-decoration: none;
+    list-style-type: none;
+    margin: 5% 0;
 }
