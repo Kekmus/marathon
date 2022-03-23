@@ -1,3 +1,108 @@
 * {
-    	box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+}
+
+.main-container {
+    width: 600px;
+    height: 400px;
+    margin: 0px auto;
+    padding: 10px;
+}
+
+.container {
+    border: solid 1px gray;
+}
+
+.search-container {
+    width: 100%;
+    height: 10%;
+    padding: 11px 16px;
+}
+
+.content-container {
+    width: 100%;
+    height: 90%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.right-container {
+    height: 100%;
+}
+
+.weather-container {
+    height: 85%;
+}
+
+.tabs-container{
+    height: 15%;
+    width: 100%;
+}
+
+.tabs-items {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.tab-item{
+    text-decoration: none;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: solid 1px gray;
+    color: black;
+}
+
+.tab-active {
+    color: white;
+    background-color: black;
+}
+
+
+.locations-info-container {
+    height: 20%;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding: 10px 20px;
+}
+
+.locations-container{
+    height: 80%;
+}
+
+.locations {
+    margin: 0;
+    height: 100%;
+    padding: 10% 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    text-align: center;
+}
+
+.location-item {
+    height: 90%;
+    padding: 0 5%;
+    margin: 0 10%;
+    text-decoration: none;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.active-location {
+    color: white;
+    background-color: black;
+    border-radius: 10px;
 }

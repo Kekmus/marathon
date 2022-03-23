@@ -5,8 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-    
+    <div class="main-container">
+        <input class='search-container container' type="text" placeholder="Search..">
+        <div class="content-container">
+            <div class="left-container container">
+                <div class="weather-container container">111</div>
+                <div class="tabs-container container">
+                    <nav class="tabs-items">
+                        <a href="#Now" class="tab-item tab-active">Now</a>
+                        <a href="#Details" class="tab-item">Details</a>
+                        <a href="#Forecast" class="tab-item">Forecast</a>
+                    </nav>
+                </div>
+            </div>
+            <div class="right-conrainer container">
+                <div class="locations-info-container container">Added locations:</div>
+                <div class="locations-container container">
+                    <ul class="locations">
+                        <li class="location-item active-location">Amur</li>
+                        <li class="location-item">Samara</li>
+                        <li class="location-item">Bali</li>
+                        <li class="location-item">Dane</li>
+                        <li class="location-item">Kilo</li>
+                        <li class="location-item">Nur-sultan</li>
+                        <li class="location-item">Astana</li>
+                        <li class="location-item">Yekaterinburg</li>
+                        <li class="location-item">Moskow</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
