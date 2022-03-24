@@ -2,6 +2,7 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     font-size: 18px;
+    user-select: none;
 }
 
 .main-container {
@@ -9,10 +10,6 @@
     height: 400px;
     margin: 0px auto;
     padding: 10px;
-}
-
-.container {
-    border: solid 1px gray;
 }
 
 .search-container {
@@ -54,7 +51,6 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border: solid 1px gray;
     color: black;
 }
 
@@ -112,11 +108,6 @@
     height: 100%;
 }
 
-.weather-block:nth-child(1) {
-    background-color: aqua;
-}
-.weather-block:nth-child(2) {
-}
 .weather-block:nth-child(3) {
     background-color: rebeccapurple;
 }
@@ -126,7 +117,6 @@
 }
 
 .weather-container .container {
-    padding: 10% 10%;
     height: 100%;
 }
 
@@ -134,12 +124,81 @@
     padding: 0;
 }
 
+.details-container {
+    padding: 10%;
+}
+
 .details-container .city-name {
-    margin-bottom: 15%;;
+    margin-bottom: 15%;
 }
 
 .city-item {
     text-decoration: none;
     list-style-type: none;
     margin: 5% 0;
+}
+
+.now-container {
+    padding: 5% 10% 0 10%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.now-bottom-container {
+    height: 20%;
+}
+
+.temperature-container {
+    font-size: 70px;
+    line-height: 82px;
+}
+
+.weather-icon-container {
+    height: 50%;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.weather-icon {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.now-bottom-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    text-align: center;
+}
+
+.like-icon-container {
+    padding: 10px;
+    height: 45px;
+    width: 60%; 
+    margin: 0 auto;
+}
+
+.like-icon {
+    height: 100%;
+    width: 100%;
+}
+
+.left-container, .right-conrainer, .tabs-container {
+    border-top: 1px solid black;
+}
+
+.left-container, .right-conrainer, .locations-info-container {
+    border-bottom: 1px solid black;
+}
+
+.left-container, .tab-item:nth-child(2), .tab-item:nth-child(3) {
+    border-left: 1px solid black;
+}
+
+.left-container, .right-conrainer {
+    border-right: 1px solid black;
 }
