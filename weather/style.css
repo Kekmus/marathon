@@ -175,7 +175,7 @@
     height: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .now-bottom-container {
@@ -202,9 +202,14 @@
 
 .now-bottom-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 2fr 1fr;
     align-items: center;
     text-align: center;
+}
+
+.now-bottom-container .city-name {
+    padding-left: 15%;
+    text-align: left;
 }
 
 .like-icon-container {
