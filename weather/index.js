@@ -15,7 +15,6 @@ function initilize() {
     cityName = storage.getCurrentCity()
     favoriteCities = getSetFromStringArray(storage.getFavoriteCities())
 
-
     UI.input.value = cityName
     updateCity({target: {type: 1}})
 
@@ -85,18 +84,32 @@ function processDataResponse(data) {
     let temp = data.main.temp
     let newCityName = data.name
     let weather = data.weather[0].main
-    console.log(temp, newCityName, weather)
-    for (let i of UI.cityNames) {
-        i.innerHTML = newCityName
-    }
+    let feelsLike = data.main.feels_like
+    let sunrise = data.sys.sunrise
+    let sunset = data.sys.sunset
+    // kek(sunrise)
+    // kek(sunset)
+    console.log(temp, newCityName, weather, feelsLike, sunrise, sunset)
+    UpdateAllNewCityParametres(getCelsiusFromKelvin(temp), newCityName, weather, getCelsiusFromKelvin(feelsLike), sunrise, sunset)
     cityName = newCityName
     storage.setCurrentCity(cityName)
-    let celsiusTemp = getCelsiusFromKelvin(temp)
-    for(let i of UI.temperatureContainers) {
-        i.innerHTML = celsiusTemp
-    }
     changeWeatherIcon(weather)
 
+}
+
+function UpdateAllNewCityParametres(temp, newCityName, weather, feelsLike, sunrise, sunset) {
+    UpdateValueContainers(temp, 'temperatureContainers')
+    UpdateValueContainers(newCityName, 'cityNameContainers')
+    UpdateValueContainers(weather, 'weatherCountContainers')
+    UpdateValueContainers(feelsLike, 'feelsLikeContainers')
+    UpdateValueContainers(sunrise, 'sunriseContainers')
+    UpdateValueContainers(sunset, 'sunsetContainers')
+}
+
+function UpdateValueContainers(value, containersName) {
+    for (let i of UI[containersName]) {
+        i.innerHTML = value
+    }
 }
 
 function changeWeatherIcon(weather) {
@@ -121,3 +134,7 @@ function getStringFromSet(set) {
 function getSetFromStringArray(arrayString) {
     return new Set(JSON.parse(arrayString))
 }
+
+// function kek(value) {
+//     console.log(value, new Date(value), new Date(value).getTime())
+// }
