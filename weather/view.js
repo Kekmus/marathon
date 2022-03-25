@@ -1,0 +1,6 @@
+export const form = document.querySelector('.search-btn')
+export const input = document.querySelector('.search-input')
+export const cityNames = document.querySelectorAll('.city-name')
+export const likeButton = document.querySelector('.like-icon-container')
+export const locationsContainer = document.querySelector('.locations')
+export const weatherIcon = document.querySelector('.weather-icon')

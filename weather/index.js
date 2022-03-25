@@ -1,26 +1,22 @@
+import {Lol, Lol1} from './kek.js'
+import * as UI from './view.js'
+
+console.log(UI)
+
 let cityName = 'Amur'
 
-const form = document.querySelector('.search-btn')
-const input = document.querySelector('.search-input')
-const cityNames = document.querySelectorAll('.city-name')
-const temperatureContainers = document.querySelectorAll('.temperature-value')
-const crossButtons = document.querySelectorAll('.cross-btn')
-const likeButton = document.querySelector('.like-icon-container')
-const locationsContainer = document.querySelector('.locations')
-
-form.addEventListener('click', getNewCity)
-likeButton.addEventListener('click', addLocationContainer)
-locationsContainer.addEventListener('click', handlLocationsContainerClick)
+UI.form.addEventListener('click', getNewCity)
+UI.likeButton.addEventListener('click', addLocationContainer)
+UI.locationsContainer.addEventListener('click', handlLocationsContainerClick)
 
 function handlLocationsContainerClick(event) {
     if(event.target.className === 'cross-btn'){
         delParentContainer(event)
     }
     if(event.target.className === 'location-item') {
-        input.value = event.target.innerText
+        UI.input.value = event.target.innerText
     }
 }
-
 
 function delParentContainer(event) {
     event.target.parentElement.remove()
@@ -34,7 +30,7 @@ function addLocationContainer() {
                             <li class="location-item">${cityName}</li>
                             <span class="cross-btn"></span>
         `
-        locationsContainer.append(newLocation)
+        UI.locationsContainer.append(newLocation)
 }
 
 function sendRequest(url) {
@@ -43,8 +39,8 @@ function sendRequest(url) {
 
 function getNewCity(e) {
     if(e.target.type) {
-        let newCityName = input.value
-        input.value = ''
+        let newCityName = UI.input.value
+        UI.input.value = ''
         if(newCityName.length > 0) {
             const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
             const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
@@ -61,7 +57,7 @@ function processDataResponse(data) {
     let newCityName = data.name
     let weather = data.weather[0].main
     console.log(temp, newCityName, weather)
-    for (let i of cityNames) {
+    for (let i of UI.cityNames) {
         i.innerHTML = newCityName
     }
     cityName = newCityName
@@ -74,7 +70,7 @@ function processDataResponse(data) {
 }
 
 function changeWeatherIcon(weather) {
-    let useTag = document.querySelector('.weather-icon').childNodes[1]
+    let useTag = UI.weatherIcon.childNodes[1]
     let hrefValue = useTag.href.baseVal
     let newValue = hrefValue.split('#')
     newValue[1] = weather.toLowerCase()
