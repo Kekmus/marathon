@@ -1,16 +1,34 @@
-import {Lol, Lol1} from './kek.js'
+import * as storage from './storage.js'
 import * as UI from './view.js'
 
-console.log(UI)
 
-let cityName = 'Amur'
+let cityName;
+let favoriteCities = new Set();
 
-UI.form.addEventListener('click', getNewCity)
+UI.form.addEventListener('click', updateCity)
 UI.likeButton.addEventListener('click', addLocationContainer)
 UI.locationsContainer.addEventListener('click', handlLocationsContainerClick)
 
+initilize()
+
+function initilize() {
+    cityName = storage.getCurrentCity()
+    favoriteCities = getSetFromStringArray(storage.getFavoriteCities())
+
+
+    UI.input.value = cityName
+    updateCity({target: {type: 1}})
+
+    for(let favoriteCitie of favoriteCities) {
+        addNewFavoriteCity(favoriteCitie)
+    }
+
+
+}
+
 function handlLocationsContainerClick(event) {
     if(event.target.className === 'cross-btn'){
+        let delCityName = event.target.previousElementSibling.innerText
         delParentContainer(event)
     }
     if(event.target.className === 'location-item') {
@@ -20,24 +38,32 @@ function handlLocationsContainerClick(event) {
 
 function delParentContainer(event) {
     event.target.parentElement.remove()
+
 }
 
 function addLocationContainer() {
-    	console.log(111)
+    let newCityName = cityName;
+    addNewFavoriteCity(newCityName)
+}
+
+function addNewFavoriteCity(newCityName) {
         let newLocation = document.createElement('div')
         newLocation.className = 'location-container'
         newLocation.innerHTML = `
-                            <li class="location-item">${cityName}</li>
+                            <li class="location-item">${newCityName}</li>
                             <span class="cross-btn"></span>
         `
         UI.locationsContainer.append(newLocation)
+        favoriteCities.add(newCityName)
+        storage.saveFavoriteCities(getStringFromSet(favoriteCities))
 }
 
 function sendRequest(url) {
     return fetch(url).then(response => response.json())   
 }
 
-function getNewCity(e) {
+function updateCity(e) {
+    console.log(e)
     if(e.target.type) {
         let newCityName = UI.input.value
         UI.input.value = ''
@@ -61,8 +87,9 @@ function processDataResponse(data) {
         i.innerHTML = newCityName
     }
     cityName = newCityName
+    storage.setCurrentCity(cityName)
     let celsiusTemp = getCelsiusFromKelvin(temp)
-    for(let i of temperatureContainers) {
+    for(let i of UI.temperatureContainers) {
         i.innerHTML = celsiusTemp
     }
     changeWeatherIcon(weather)
@@ -82,4 +109,12 @@ function changeWeatherIcon(weather) {
 
 function getCelsiusFromKelvin(value) {
     return Math.ceil(value - 273.15)
+}
+
+function getStringFromSet(set) {
+    return JSON.stringify([...set])
+}
+
+function getSetFromStringArray(arrayString) {
+    return new Set(JSON.parse(arrayString))
 }
