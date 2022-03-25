@@ -19,8 +19,8 @@ function initilize() {
     UI.input.value = cityName
     updateCity({target: {type: 1}})
 
-    for(let favoriteCitie of favoriteCities) {
-        addNewFavoriteCity(favoriteCitie)
+    for(let favoriteCity of favoriteCities) {
+        addNewFavoriteCity(favoriteCity)
     }
 }
 
@@ -76,10 +76,6 @@ function updateForecast () {
                         .then(processForecastDataResponse)
                         .catch(err => console.log(err))
     }
-}
-
-function delAllForecastContainers() {
-    UI.forecastsContainer.innerHTML = ''
 }
 
 function processForecastDataResponse(data) {
@@ -143,14 +139,6 @@ function processCurrentDataResponse(data) {
     const tempCelsius = getCelsiusFromKelvin(temp)
     const feelsLikeCelsius = getCelsiusFromKelvin(feelsLike)
     
-    console.log(tempCelsius, 
-    newCityName, 
-    weather, 
-    feelsLikeCelsius, 
-    sunriseFormatDate, 
-    sunsetFormatDate,
-    todayFormatDate)
-    
     UpdateAllNewCityParametres(
         tempCelsius, 
         newCityName, 
@@ -162,7 +150,6 @@ function processCurrentDataResponse(data) {
     )
     
     cityName = newCityName
-    console.log(cityName)
     storage.setCurrentCity(cityName)
 
 }
@@ -221,4 +208,8 @@ function handlLocationsContainerClick(event) {
 
 function delParentContainer(event) {
     event.target.parentElement.remove()
+}
+
+function delAllForecastContainers() {
+    UI.forecastsContainer.innerHTML = ''
 }
