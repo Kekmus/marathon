@@ -81,16 +81,24 @@ function updateCity(e) {
 }
 
 function processDataResponse(data) {
+    console.log(data)
     let temp = data.main.temp
     let newCityName = data.name
     let weather = data.weather[0].main
     let feelsLike = data.main.feels_like
     let sunrise = data.sys.sunrise
     let sunset = data.sys.sunset
-    // kek(sunrise)
-    // kek(sunset)
+    let timezone = data.timezone
+    getHHMMFromUnixTime(sunrise, timezone)
     console.log(temp, newCityName, weather, feelsLike, sunrise, sunset)
-    UpdateAllNewCityParametres(getCelsiusFromKelvin(temp), newCityName, weather, getCelsiusFromKelvin(feelsLike), sunrise, sunset)
+    UpdateAllNewCityParametres(
+        getCelsiusFromKelvin(temp), 
+        newCityName, 
+        weather, 
+        getCelsiusFromKelvin(feelsLike), 
+        getHHMMFromUnixTime(sunrise, timezone), 
+        getHHMMFromUnixTime(sunset, timezone)
+    )
     cityName = newCityName
     storage.setCurrentCity(cityName)
     changeWeatherIcon(weather)
@@ -135,6 +143,12 @@ function getSetFromStringArray(arrayString) {
     return new Set(JSON.parse(arrayString))
 }
 
-// function kek(value) {
-//     console.log(value, new Date(value), new Date(value).getTime())
-// }
+function getHHMMFromUnixTime(unixTime, timezone) {
+    const milliseconds = unixTime * 1000
+    const date = new Date(milliseconds)
+    const diffWithUTCTime = timezone / 3600
+
+    date.setHours((date.getUTCHours() + diffWithUTCTime) % 24)
+
+    return new Intl.DateTimeFormat("ru", {timeStyle: "short"}).format(date)
+}
