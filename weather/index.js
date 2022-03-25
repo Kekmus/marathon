@@ -3,13 +3,13 @@ const input = document.querySelector('.search-input')
 const cityNames = document.querySelectorAll('.city-name')
 const temperatureContainers = document.querySelectorAll('.temperature-value')
 
-form.addEventListener('click', kek)
+form.addEventListener('click', getNewCity)
 
 function sendRequest(url) {
     return fetch(url).then(response => response.json())   
 }
 
-function kek(e) {
+function getNewCity(e) {
     if(e.target.type) {
         let cityName = input.value
         input.value = ''
