@@ -29,6 +29,8 @@ function initilize() {
 function handlLocationsContainerClick(event) {
     if(event.target.className === 'cross-btn'){
         let delCityName = event.target.previousElementSibling.innerText
+        favoriteCities.delete(delCityName)
+        storage.saveFavoriteCities(getStringFromSet(favoriteCities))
         delParentContainer(event)
     }
     if(event.target.className === 'location-item') {
@@ -43,19 +45,21 @@ function delParentContainer(event) {
 
 function addLocationContainer() {
     let newCityName = cityName;
+    if(favoriteCities.has(newCityName)) 
+        throw new Error('Trying to add an existing city to your favorites')
     addNewFavoriteCity(newCityName)
 }
 
 function addNewFavoriteCity(newCityName) {
-        let newLocation = document.createElement('div')
-        newLocation.className = 'location-container'
-        newLocation.innerHTML = `
-                            <li class="location-item">${newCityName}</li>
-                            <span class="cross-btn"></span>
-        `
-        UI.locationsContainer.append(newLocation)
-        favoriteCities.add(newCityName)
-        storage.saveFavoriteCities(getStringFromSet(favoriteCities))
+    let newLocation = document.createElement('div')
+    newLocation.className = 'location-container'
+    newLocation.innerHTML = `
+                        <li class="location-item">${newCityName}</li>
+                        <span class="cross-btn"></span>
+    `
+    UI.locationsContainer.append(newLocation)
+    favoriteCities.add(newCityName)
+    storage.saveFavoriteCities(getStringFromSet(favoriteCities))
 }
 
 function sendRequest(url) {
@@ -63,7 +67,6 @@ function sendRequest(url) {
 }
 
 function updateCity(e) {
-    console.log(e)
     if(e.target.type) {
         let newCityName = UI.input.value
         UI.input.value = ''
