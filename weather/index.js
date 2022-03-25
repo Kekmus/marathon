@@ -1,9 +1,32 @@
+let cityName = 'Amur'
+
 const form = document.querySelector('.search-btn')
 const input = document.querySelector('.search-input')
 const cityNames = document.querySelectorAll('.city-name')
 const temperatureContainers = document.querySelectorAll('.temperature-value')
+const crossButtons = document.querySelectorAll('.cross-btn')
+const likeButton = document.querySelector('.like-icon-container')
+const locationsContainer = document.querySelector('.locations')
 
 form.addEventListener('click', getNewCity)
+crossButtons.forEach(a => a.addEventListener('click', delLocationContainer))
+likeButton.addEventListener('click', addLocationContainer)
+
+function delLocationContainer() {
+    this.parentElement.remove()
+}
+
+function addLocationContainer() {
+    	console.log(111)
+        let newLocation = document.createElement('div')
+        newLocation.className = 'location-container'
+        newLocation.innerHTML = `
+                            <li class="location-item">${cityName}</li>
+                            <span class="cross-btn"></span>
+        `
+        locationsContainer.append(newLocation)
+        newLocation.querySelector('.cross-btn').addEventListener('click', delLocationContainer)
+}
 
 function sendRequest(url) {
     return fetch(url).then(response => response.json())   
@@ -11,12 +34,12 @@ function sendRequest(url) {
 
 function getNewCity(e) {
     if(e.target.type) {
-        let cityName = input.value
+        let newCityName = input.value
         input.value = ''
-        if(cityName.length > 0) {
+        if(newCityName.length > 0) {
             const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
             const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
-            const url = `${serverUrl}?q=${cityName}&appid=${apiKey}`;
+            const url = `${serverUrl}?q=${newCityName}&appid=${apiKey}`;
             sendRequest(url)
                             .then(processDataResponse)
                             .catch(err => console.log(err))
@@ -26,12 +49,13 @@ function getNewCity(e) {
 
 function processDataResponse(data) {
     let temp = data.main.temp
-    let cityName = data.name
+    let newCityName = data.name
     let weather = data.weather[0].main
-    console.log(temp, cityName, weather)
+    console.log(temp, newCityName, weather)
     for (let i of cityNames) {
-        i.innerHTML = cityName
+        i.innerHTML = newCityName
     }
+    cityName = newCityName
     let celsiusTemp = getCelsiusFromKelvin(temp)
     for(let i of temperatureContainers) {
         i.innerHTML = celsiusTemp
