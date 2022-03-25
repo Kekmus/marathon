@@ -53,7 +53,33 @@
                             </ul>
                         </div>
                     </div>
-                    <div id='Forecast' class="weather-block container">Forecast</div>
+                    <div id='Forecast' class="weather-block container">
+                        <div class="forecast-container">
+                            <div class="city-name"></div>
+                            <div class="forecast-wrappers">
+                                <div class="forecast-wrapper">
+                                    <div class="forecast-date-value">
+                                        date
+                                    </div>
+                                    <div class="forecast-time-value">
+                                        time
+                                    </div>
+                                    <div class="forecast-temperature-container">
+                                        <div class="forecast-temperature-item">Temperature: <span class="temperature-value"></span></div>
+                                        <div class="forecast-temperature-item">Feels like: <span class="feels-like-value"></span></div>
+                                    </div>
+                                    <div class="forecast-weather-container">
+                                        <div class="forecast-weather-item"><span class="weather-value"></span></div>
+                                        <div class="forecast-weather-icon-container">
+                                            <svg class="forecast-weather-icon">
+                                                <use xlink:href="./assets/svg/sprite.svg#temp"></use>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tabs-container container">
                     <nav class="tabs-items">

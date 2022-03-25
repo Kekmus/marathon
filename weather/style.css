@@ -183,10 +183,6 @@
     height: 100%;
 }
 
-.weather-block:nth-child(3) {
-    background-color: rebeccapurple;
-}
-
 .weather-block:target {
     display: block;
 }
@@ -199,8 +195,8 @@
     padding: 0;
 }
 
-.details-container {
-    padding: 10%;
+.details-container, .forecast-container {
+    padding: 7% 5%;
 }
 
 .details-container .city-name {
@@ -267,18 +263,57 @@
     width: 100%;
 }
 
-.left-container, .right-conrainer, .tabs-container, .search-container {
+.left-container, .right-conrainer, .tabs-container, .search-container, .forecast-wrapper {
     border-top: 2px solid black;
 }
 
-.left-container, .right-conrainer, .locations-info-container {
+.left-container, .right-conrainer, .locations-info-container, .forecast-wrapper {
     border-bottom: 2px solid black;
 }
 
-.left-container, .tab-item:nth-child(2), .tab-item:nth-child(3), .search-container {
+.left-container, .tab-item:nth-child(2), .forecast-wrapper, .tab-item:nth-child(3), .search-container {
     border-left: 2px solid black;
 }
 
-.left-container, .right-conrainer, .search-container {
+.left-container, .right-conrainer, .search-container, .forecast-wrapper {
     border-right: 2px solid black;
+}
+
+.forecast-container {
+    overflow-y: auto;
+    height: 100%;
+    max-height: 287px
+}
+
+.forecast-wrappers {
+    margin: 5% 0;
+}
+
+.forecast-wrapper {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 2.5%;
+    width: 100%;
+}
+
+.forecast-time-value, .forecast-weather-container {
+    text-align: center;
+}
+
+.forecast-weather-container {
+    height: 100%;
+}
+
+.forecast-weather-icon-container {
+    height: 25px;
+    width: 25px;
+    margin: 0 auto;
+}
+
+.forecast-weather-icon {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin: 0 auto;
 }
