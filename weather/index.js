@@ -22,25 +22,12 @@ function initilize() {
     for(let favoriteCitie of favoriteCities) {
         addNewFavoriteCity(favoriteCitie)
     }
-
-
 }
 
-function handlLocationsContainerClick(event) {
-    if(event.target.className === 'cross-btn'){
-        let delCityName = event.target.previousElementSibling.innerText
-        favoriteCities.delete(delCityName)
-        storage.saveFavoriteCities(getStringFromSet(favoriteCities))
-        delParentContainer(event)
+function updateCity(e) {
+    if(e.target.type) { 
+        updateInfo()
     }
-    if(event.target.className === 'location-item') {
-        UI.input.value = event.target.innerText
-    }
-}
-
-function delParentContainer(event) {
-    event.target.parentElement.remove()
-
 }
 
 function addLocationContainer() {
@@ -66,23 +53,82 @@ function sendRequest(url) {
     return fetch(url).then(response => response.json())   
 }
 
-function updateCity(e) {
-    if(e.target.type) {
-        let newCityName = UI.input.value
-        UI.input.value = ''
-        if(newCityName.length > 0) {
-            const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-            const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
-            const url = `${serverUrl}?q=${newCityName}&appid=${apiKey}`;
-            sendRequest(url)
-                            .then(processDataResponse)
-                            .catch(err => console.log(err))
-        }
+function updateInfo() {
+    let newCityName = UI.input.value
+    UI.input.value = ''
+    if(newCityName.length > 0) {
+        const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
+        const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
+        const url = `${serverUrl}?q=${newCityName}&appid=${apiKey}`;
+        sendRequest(url)
+                        .then(processCurrentDataResponse)
+                        .then(updateForecast)
+                        .catch(err => console.log(err))
     }
 }
 
-function processDataResponse(data) {
-    console.log(data)
+function updateForecast () {
+    if(cityName.length > 0) {
+        const serverUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+        const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
+        const url = `${serverUrl}?q=${cityName}&appid=${apiKey}`;
+        sendRequest(url)
+                        .then(processForecastDataResponse)
+                        .catch(err => console.log(err))
+    }
+}
+
+function delAllForecastContainers() {
+    UI.forecastsContainer.innerHTML = ''
+}
+
+function processForecastDataResponse(data) {
+    delAllForecastContainers()
+    let timezone = data.city.timezone
+    for(let i = 0; i < 5; i++) {
+        const dataItem = data.list[i]
+
+        const dateTime = dataItem.dt
+        let temp = dataItem.main.temp
+        let weather = dataItem.weather[0].main
+        let feelsLike = dataItem.main.feels_like
+
+        const todayFormatDate = DATE.getFormatDate('en-GB', 'MonthDay', dateTime, timezone)
+        const tempCelsius = getCelsiusFromKelvin(temp)
+        const feelsLikeCelsius = getCelsiusFromKelvin(feelsLike)
+        const timeFormateDate = DATE.getFormatDate('ru', 'HHMM', dateTime, timezone)
+
+        addNewForecastContainer(todayFormatDate, timeFormateDate, tempCelsius, weather, feelsLikeCelsius)
+    }
+}
+
+function addNewForecastContainer(todayFormatDate, timeFormateDate, tempCelsius, weather, feelsLikeCelsius) {
+    let newForecastContainer = document.createElement('div')
+    newForecastContainer.className = 'forecast-wrapper'
+    newForecastContainer.innerHTML = `
+    <div class="forecast-date-value">
+        ${todayFormatDate}
+    </div>
+    <div class="forecast-time-value">
+        ${timeFormateDate}
+    </div>
+    <div class="forecast-temperature-container">
+        <div class="forecast-temperature-item">Temperature: <span>${tempCelsius}</span></div>
+        <div class="forecast-temperature-item">Feels like: <span>${feelsLikeCelsius}</span></div>
+    </div>
+    <div class="forecast-weather-container">
+        <div class="forecast-weather-item"><span>${weather}</span></div>
+        <div class="forecast-weather-icon-container">
+            <svg class="forecast-weather-icon">
+                <use xlink:href="./assets/svg/sprite.svg#${weather.toLowerCase()}"></use>
+            </svg>
+        </div>
+    </div>
+    `
+    UI.forecastsContainer.append(newForecastContainer)
+}
+
+function processCurrentDataResponse(data) {
     let temp = data.main.temp
     let newCityName = data.name
     let weather = data.weather[0].main
@@ -90,27 +136,45 @@ function processDataResponse(data) {
     let sunrise = data.sys.sunrise
     let sunset = data.sys.sunset
     let timezone = data.timezone
-    console.log(temp, newCityName, weather, feelsLike, sunrise, sunset)
+
+    const todayFormatDate = DATE.getFormatDate('en-GB', 'MonthDay', sunrise, timezone)
+    const sunriseFormatDate = DATE.getFormatDate('ru', 'HHMM', sunrise, timezone)
+    const sunsetFormatDate = DATE.getFormatDate('ru', 'HHMM', sunset, timezone)
+    const tempCelsius = getCelsiusFromKelvin(temp)
+    const feelsLikeCelsius = getCelsiusFromKelvin(feelsLike)
+    
+    console.log(tempCelsius, 
+    newCityName, 
+    weather, 
+    feelsLikeCelsius, 
+    sunriseFormatDate, 
+    sunsetFormatDate,
+    todayFormatDate)
+    
     UpdateAllNewCityParametres(
-        getCelsiusFromKelvin(temp), 
+        tempCelsius, 
         newCityName, 
         weather, 
-        getCelsiusFromKelvin(feelsLike), 
-        DATE.getFormatDate('ru', 'HHMM', sunrise, timezone), 
-        DATE.getFormatDate('ru', 'HHMM', sunset, timezone),
+        feelsLikeCelsius, 
+        sunriseFormatDate, 
+        sunsetFormatDate,
+        todayFormatDate
     )
+    
     cityName = newCityName
+    console.log(cityName)
     storage.setCurrentCity(cityName)
 
 }
 
-function UpdateAllNewCityParametres(temp, newCityName, weather, feelsLike, sunrise, sunset) {
+function UpdateAllNewCityParametres(temp, newCityName, weather, feelsLike, sunrise, sunset, todayFormatDate) {
     UpdateValueContainers(temp, 'temperatureContainers')
     UpdateValueContainers(newCityName, 'cityNameContainers')
     UpdateValueContainers(weather, 'weatherCountContainers')
     UpdateValueContainers(feelsLike, 'feelsLikeContainers')
     UpdateValueContainers(sunrise, 'sunriseContainers')
     UpdateValueContainers(sunset, 'sunsetContainers')
+    UpdateValueContainers(todayFormatDate, 'todayDateContainers')
     UpdateValueContainers(getNewWeatherIconInnerHtml(weather), 'weatherIconsContainers')
 }
 
@@ -141,4 +205,20 @@ function getStringFromSet(set) {
 
 function getSetFromStringArray(arrayString) {
     return new Set(JSON.parse(arrayString))
+}
+
+function handlLocationsContainerClick(event) {
+    if(event.target.className === 'cross-btn'){
+        let delCityName = event.target.previousElementSibling.innerText
+        favoriteCities.delete(delCityName)
+        storage.saveFavoriteCities(getStringFromSet(favoriteCities))
+        delParentContainer(event)
+    }
+    if(event.target.className === 'location-item') {
+        UI.input.value = event.target.innerText
+    }
+}
+
+function delParentContainer(event) {
+    event.target.parentElement.remove()
 }
