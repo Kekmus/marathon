@@ -9,11 +9,21 @@ const likeButton = document.querySelector('.like-icon-container')
 const locationsContainer = document.querySelector('.locations')
 
 form.addEventListener('click', getNewCity)
-crossButtons.forEach(a => a.addEventListener('click', delLocationContainer))
 likeButton.addEventListener('click', addLocationContainer)
+locationsContainer.addEventListener('click', handlLocationsContainerClick)
 
-function delLocationContainer() {
-    this.parentElement.remove()
+function handlLocationsContainerClick(event) {
+    if(event.target.className === 'cross-btn'){
+        delParentContainer(event)
+    }
+    if(event.target.className === 'location-item') {
+        input.value = event.target.innerText
+    }
+}
+
+
+function delParentContainer(event) {
+    event.target.parentElement.remove()
 }
 
 function addLocationContainer() {
@@ -25,7 +35,6 @@ function addLocationContainer() {
                             <span class="cross-btn"></span>
         `
         locationsContainer.append(newLocation)
-        newLocation.querySelector('.cross-btn').addEventListener('click', delLocationContainer)
 }
 
 function sendRequest(url) {
