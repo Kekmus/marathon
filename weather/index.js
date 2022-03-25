@@ -81,7 +81,6 @@ function updateCity(e) {
 }
 
 function processDataResponse(data) {
-    console.log(data)
     let temp = data.main.temp
     let newCityName = data.name
     let weather = data.weather[0].main
@@ -101,7 +100,6 @@ function processDataResponse(data) {
     )
     cityName = newCityName
     storage.setCurrentCity(cityName)
-    changeWeatherIcon(weather)
 
 }
 
@@ -112,6 +110,7 @@ function UpdateAllNewCityParametres(temp, newCityName, weather, feelsLike, sunri
     UpdateValueContainers(feelsLike, 'feelsLikeContainers')
     UpdateValueContainers(sunrise, 'sunriseContainers')
     UpdateValueContainers(sunset, 'sunsetContainers')
+    UpdateValueContainers(getNewWeatherIconInnerHtml(weather), 'weatherIconsContainers')
 }
 
 function UpdateValueContainers(value, containersName) {
@@ -120,15 +119,15 @@ function UpdateValueContainers(value, containersName) {
     }
 }
 
-function changeWeatherIcon(weather) {
-    let useTag = UI.weatherIcon.childNodes[1]
-    let hrefValue = useTag.href.baseVal
-    let newValue = hrefValue.split('#')
-    newValue[1] = weather.toLowerCase()
-    newValue = newValue.join('#')
-    for(let i in useTag.href) {
-        useTag['href'][i] = newValue
-    }
+function getNewWeatherIconInnerHtml(weather) {
+    let weatherIconInnerHTML = UI['weatherIconsContainers'][0].innerHTML
+    let newHrefValue = `./assets/svg/sprite.svg#${weather.toLowerCase()}`
+    
+    let kek = weatherIconInnerHTML.split('\"')
+    kek[1] = newHrefValue
+    kek = kek.join('\"')
+
+    return kek
 }
 
 function getCelsiusFromKelvin(value) {
