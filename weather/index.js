@@ -1,5 +1,6 @@
 import * as storage from './storage.js'
 import * as UI from './view.js'
+import * as DATE from './date.js'
 
 
 let cityName;
@@ -81,6 +82,7 @@ function updateCity(e) {
 }
 
 function processDataResponse(data) {
+    console.log(data)
     let temp = data.main.temp
     let newCityName = data.name
     let weather = data.weather[0].main
@@ -88,15 +90,14 @@ function processDataResponse(data) {
     let sunrise = data.sys.sunrise
     let sunset = data.sys.sunset
     let timezone = data.timezone
-    getHHMMFromUnixTime(sunrise, timezone)
     console.log(temp, newCityName, weather, feelsLike, sunrise, sunset)
     UpdateAllNewCityParametres(
         getCelsiusFromKelvin(temp), 
         newCityName, 
         weather, 
         getCelsiusFromKelvin(feelsLike), 
-        getHHMMFromUnixTime(sunrise, timezone), 
-        getHHMMFromUnixTime(sunset, timezone)
+        DATE.getFormatDate('ru', 'HHMM', sunrise, timezone), 
+        DATE.getFormatDate('ru', 'HHMM', sunset, timezone),
     )
     cityName = newCityName
     storage.setCurrentCity(cityName)
@@ -140,14 +141,4 @@ function getStringFromSet(set) {
 
 function getSetFromStringArray(arrayString) {
     return new Set(JSON.parse(arrayString))
-}
-
-function getHHMMFromUnixTime(unixTime, timezone) {
-    const milliseconds = unixTime * 1000
-    const date = new Date(milliseconds)
-    const diffWithUTCTime = timezone / 3600
-
-    date.setHours((date.getUTCHours() + diffWithUTCTime) % 24)
-
-    return new Intl.DateTimeFormat("ru", {timeStyle: "short"}).format(date)
 }
